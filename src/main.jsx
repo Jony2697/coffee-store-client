@@ -11,6 +11,10 @@ import Home from './components/Home.jsx';
 import AddCoffee from './components/AddCoffee.jsx';
 import UpdateCoffee from './components/UpdateCoffee.jsx';
 import CoffeeDetails from './components/CoffeeDetails.jsx';
+import SignIn from './components/SignIn.jsx';
+import SignUp from './components/SignUp.jsx';
+import AuthProvider from './contexts/AuthProvider.jsx';
+import Users from './components/Users.jsx';
 
 const router = createBrowserRouter([
   {
@@ -28,20 +32,35 @@ const router = createBrowserRouter([
       },
       {
         path: '/coffee/:id',
-        loader:({params})=>fetch(`http://localhost:3000/coffees/${params.id}`),
+        loader: ({ params }) => fetch(`http://localhost:3000/coffees/${params.id}`),
         Component: CoffeeDetails
       },
       {
         path: '/updateCoffee/:id',
-        loader:({params})=>fetch(`http://localhost:3000/coffees/${params.id}`),
+        loader: ({ params }) => fetch(`http://localhost:3000/coffees/${params.id}`),
         Component: UpdateCoffee,
       },
+      {
+        path: '/signIn',
+        Component: SignIn
+      },
+      {
+      path:'/signUp',
+      Component:SignUp
+      },
+      {
+        path:'/users',
+        loader:()=>fetch('http://localhost:3000/users'),
+        Component:Users
+      }
     ]
   },
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
